@@ -12,3 +12,17 @@ addEventListener('pointermove', (event) => {
     frame = 0;
   });
 }, { passive: true });
+
+const loader = document.querySelector('.loader');
+loader.addEventListener('click', () => {
+  const paused = document.body.classList.toggle('paused');
+  loader.setAttribute('aria-pressed', String(paused));
+  loader.setAttribute('aria-label', paused ? 'Resume loading animation' : 'Pause loading animation');
+  loader.title = paused ? 'Resume animation' : 'Pause animation';
+});
+// Suspend decorative animation in background tabs.
+document.addEventListener('visibilitychange', () => {
+  document.querySelectorAll('.loader span, .line > span').forEach(el => {
+    el.style.animationPlayState = document.hidden ? 'paused' : '';
+  });
+});
